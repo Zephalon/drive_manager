@@ -43,9 +43,9 @@ if (space_to_freed > 0):
 
     # mark files for deletion until enough space is freed
     while(space_to_freed > 0):
-        for file in sorted_files:
-            space_to_freed -= bytesTo(os.stat(dir_path + '/' + path).st_size, 'g')
-            files_to_delete.append(file)
+        for file_path in files:
+            space_to_freed -= bytesTo(os.stat(dir_path + '/' + file_path).st_size, 'g')
+            files_to_delete.append(file_path)
 else:
     print("Disk Space Left: %d GiB" % abs(space_to_freed))
 
