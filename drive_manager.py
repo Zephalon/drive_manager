@@ -8,6 +8,7 @@ def bytesTo(bytes, to, bsize=1024):
     r = float(bytes)
     return round(bytes / (bsize ** a[to]), 2)
 
+# setup
 drive_path = '/media/nas'
 dir_path = drive_path + '/video'
 required_disk_space = 500 # in GiB
@@ -37,6 +38,7 @@ if (space_to_freed > 0):
 
     files = dict(sorted(files.items(), key=lambda item: item[1], reverse=True)) # sort files by age
 
+    # mark files for deletion until enough space is freed
     for file in files:
         if(space_to_freed > 0):
             space_to_freed -= bytesTo(os.stat(dir_path + '/' + path).st_size, 'g')
@@ -45,6 +47,7 @@ if (space_to_freed > 0):
     print("Files To Be Deleted:")
     print(files_to_delete)
 
+    # entering the danger zone
     for file in files_to_delete:
         os.remove(dir_path + '/' + file)
     
