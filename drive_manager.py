@@ -22,7 +22,7 @@ print("Free: %d GiB" % (free // (2**30)))
 print("Required: %d GiB" % required_disk_space)
 
 free_space = free // (2**30)
-space_to_freed =  required_disk_space - free_space
+space_to_free =  required_disk_space - free_space
 
 # lists to store files
 files = {}
@@ -38,16 +38,16 @@ for path in os.listdir(dir_path):
 files = dict(sorted(files.items(), key=lambda item: item[1], reverse=True)) # sort files by age
 
 # free drive space
-if (space_to_freed > 0):
-    print("Disk Space To Be Freed: %d GiB" % space_to_freed)
+if (space_to_free > 0):
+    print("Disk Space To Be Freed: %d GiB" % space_to_free)
 
     # mark files for deletion until enough space is freed
-    while(space_to_freed > 0):
+    while(space_to_free > 0):
         for file_path in files:
-            space_to_freed -= bytesTo(os.stat(dir_path + '/' + file_path).st_size, 'g')
+            space_to_free -= bytesTo(os.stat(dir_path + '/' + file_path).st_size, 'g')
             files_to_delete.append(file_path)
 else:
-    print("Disk Space Left: %d GiB" % abs(space_to_freed))
+    print("Disk Space Left: %d GiB" % abs(space_to_free))
 
 # delete old files
 if (maximum_file_age != False):
