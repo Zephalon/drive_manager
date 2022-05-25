@@ -11,15 +11,15 @@ def bytesTo(bytes, to, bsize=1024):
 # setup
 drive_path = '/media/nas'
 dir_path = drive_path + '/video'
-required_disk_space = 500 # in GiB
+required_disk_space = 300 # in GiB
 maximum_file_age = 90 # in days, set to 'False' to disable it
 
 total, used, free = shutil.disk_usage(drive_path)
 
-print("Total: %d GiB" % (total // (2**30)))
-print("Used: %d GiB" % (used // (2**30)))
-print("Free: %d GiB" % (free // (2**30)))
-print("Required: %d GiB" % required_disk_space)
+print('Total: %d GiB' % (total // (2**30)))
+print('Used: %d GiB' % (used // (2**30)))
+print('Free: %d GiB' % (free // (2**30)))
+print('Required: %d GiB' % required_disk_space)
 
 free_space = free // (2**30)
 space_to_free =  required_disk_space - free_space
@@ -39,7 +39,7 @@ files = dict(sorted(files.items(), key=lambda item: item[1], reverse=True)) # so
 
 # free drive space
 if (space_to_free > 0):
-    print("Disk Space To Be Freed: %d GiB" % space_to_free)
+    print('Disk Space To Be Freed: %d GiB' % space_to_free)
 
     # mark files for deletion until enough space is freed
     while(space_to_free > 0):
@@ -47,7 +47,7 @@ if (space_to_free > 0):
             space_to_free -= bytesTo(os.stat(dir_path + '/' + file_path).st_size, 'g')
             files_to_delete.append(file_path)
 else:
-    print("Disk Space Left: %d GiB" % abs(space_to_free))
+    print('Disk Space Left: %d GiB' % abs(space_to_free))
 
 # delete old files
 if (maximum_file_age != False):
@@ -55,12 +55,15 @@ if (maximum_file_age != False):
         if (files[file] >= maximum_file_age):
             files_to_delete.append(file)
 
-print("Files To Be Deleted:")
-print(files_to_delete)
+if (len(files_to_delete)):
+    print('%d Files To Be Deleted:' % len(files_to_delete))
+    print(files_to_delete)
 
-# entering the danger zone
-for file_path in files_to_delete:
-    os.remove(dir_path + '/' + file_path)
-    freed_space += bytesTo(os.stat(dir_path + '/' + file_path).st_size, 'g')
+    # entering the danger zone
+    for file_path in files_to_delete:
+        freed_space += bytesTo(os.stat(dir_path + '/' + file_path).st_size, 'g')
+        os.remove(dir_path + '/' + file_path)
 
-print("Files Deleted, Space Freed: %d GiB" % freed_space)
+    print('Files Deleted, Space Freed: %d GiB' % freed_space)
+else:
+    print('No Files Deleted.')
