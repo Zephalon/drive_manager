@@ -9,8 +9,8 @@ def bytesTo(bytes, to, bsize=1024):
     return round(bytes / (bsize ** a[to]), 2)
 
 # setup
-drive_path = '/media/nas'
-dir_path = drive_path + '/video'
+drive_path = '/external_drive' # mount point of the drive
+dir_path = drive_path + '/video' # the directory on the drive
 required_disk_space = 300 # in GiB
 maximum_file_age = 90 # in days, set to 'False' to disable it
 
