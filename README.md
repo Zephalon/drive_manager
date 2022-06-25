@@ -1,11 +1,13 @@
 
 # Housekeeping
 
+A collection of useful Python scripts for my home server.
+
 ## Drive Manager
 
 A simple Python script that deletes redundant files if the reserved disk space is exceeded.
 
-# How To Run
+### How To Run
 
 To run it once, simply run the python script:
 
